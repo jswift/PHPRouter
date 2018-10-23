@@ -58,7 +58,7 @@ class Router
 /**
  * Function to get headers related to HTTP,PHP_AUTH and REQUEST from $_SERVER
  * @method getHTTPHeaders
- * @return Array         returns an containing all information related to HTTP,PHP_AUTH and REQUEST from $_SERVER
+ * @return array         returns an containing all information related to HTTP,PHP_AUTH and REQUEST from $_SERVER
  */
 private function getHTTPHeaders()
 {
@@ -97,7 +97,7 @@ private function getRegexRepresentation($path)
    * Add the given route to 'GET' array for lookup
    * @method get
    * @param  string   $path     Route
-   * @param  function $callback Function to be called when the current equates the provided route; The callback must take request array and response object as parameters
+   * @param  callable $callback Function to be called when the current equates the provided route; The callback must take request array and response object as parameters
    * @return void
    */
   public function get($path, $callback)
@@ -108,7 +108,7 @@ private function getRegexRepresentation($path)
    * Add the given route to 'POST' array for lookup
    * @method post
    * @param  string   $path     Route
-   * @param  function $callback Function to be called when the current equates the provided route; The callback must take request array and response object as parameters
+   * @param  callable $callback Function to be called when the current equates the provided route; The callback must take request array and response object as parameters
    * @return void
    */
   public function post($path, $callback)
@@ -119,7 +119,7 @@ private function getRegexRepresentation($path)
    * Add the given route to 'PUT' array for lookup
    * @method put
    * @param  string   $path     Route
-   * @param  function $callback Function to be called when the current equates the provided route; The callback must take request array and response object as parameters
+   * @param  callable $callback Function to be called when the current equates the provided route; The callback must take request array and response object as parameters
    * @return void
    */
   public function put($path, $callback)
@@ -130,7 +130,7 @@ private function getRegexRepresentation($path)
    * Add the given route to 'PATCH' array for lookup
    * @method patch
    * @param  string   $path     Route
-   * @param  function $callback Function to be called when the current equates the provided route; The callback must take request array and response object as parameters
+   * @param  callable $callback Function to be called when the current equates the provided route; The callback must take request array and response object as parameters
    * @return void
    */
   public function patch($path, $callback)
@@ -141,7 +141,7 @@ private function getRegexRepresentation($path)
    * Add the given route to 'DELETE' array for lookup
    * @method delete
    * @param  string   $path     Route
-   * @param  function $callback Function to be called when the current equates the provided route; The callback must take request array and response object as parameters
+   * @param  callable $callback Function to be called when the current equates the provided route; The callback must take request array and response object as parameters
    * @return void
    */
   public function delete($path, $callback)
@@ -152,7 +152,7 @@ private function getRegexRepresentation($path)
    * Add the given route to 'ANY' array for lookup. ANY can be any REQUEST_METHOD
    * @method any
    * @param  string   $path     Route
-   * @param  function $callback Function to be called when the current equates the provided route; The callback must take request array and response object as parameters
+   * @param  callable $callback Function to be called when the current equates the provided route; The callback must take request array and response object as parameters
    * @return void
    */
   public function any($path, $callback)
@@ -162,7 +162,7 @@ private function getRegexRepresentation($path)
   /**
    * Error Handler to set handler to be called when no routes are found
    * @method error
-   * @param  function $function A callback function that takes request array and response object
+   * @param  callable $function A callback function that takes request array and response object
    * @return void
    */
   public function error($function)
@@ -173,7 +173,7 @@ private function getRegexRepresentation($path)
    * Function to get appropriate callback for the current PATH_INFO based on REQUEST_METHOD
    * @method getCallback
    * @param  string        $method REQUEST_METHOD as string
-   * @return function              The callback function
+   * @return callable              The callback function
    */
   public function getCallback($method)
   {
@@ -184,8 +184,8 @@ private function getRegexRepresentation($path)
           if (preg_match($name, $this->currentPath, $matches)||preg_match($name, $this->currentPath."/", $matches)) {
               // Get elements with string keys from matches
         $params = array_intersect_key($matches, array_flip(array_filter(array_keys($matches), 'is_string')));
-              foreach ($params as $key=> $value) {
-                  $this->request["params"][$key]=$value;
+              foreach ($params as $key=> $v) {
+                  $this->request["params"][$key]=$v;
               }
               return $this->routes[$method][$name];
           }
@@ -194,7 +194,7 @@ private function getRegexRepresentation($path)
   /**
    * Starts the routing process by matching current PATH_INFO to avaialable routes in array $routes
    * @method start
-   * @return function  Returns callback function of the appropriate route or returns callback function of the error handler
+   * @return callable  Returns callback function of the appropriate route or returns callback function of the error handler
    */
   public function start()
   {
